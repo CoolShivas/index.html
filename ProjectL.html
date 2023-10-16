@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+    <style>
+        header{
+            text-align:center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+    </style>
+
+    <script>
+        
+        function savingToLocalStorage(event){
+            event.preventDefault();
+            const nameInput = event.target.userName.value;
+            const emailInput = event.target.userID.value;
+            const phoneNumberInput = event.target.phoneNumber.value;
+
+            let exObj = {
+                name : event.target.userName.value,
+                email : event.target.userID.value,
+                phoneNumber : event.target.phoneNumber.value
+            }
+            localStorage.setItem(exObj.name, JSON.stringify(exObj));
+            visibleOnScreen(exObj);
+            
+
+        }
+
+        function visibleOnScreen(exObj){
+            const parElem = document.getElementById("list-of-items");
+            const childElement = document.createElement('li');
+            childElement.appendChild(document.createTextNode(`${exObj.name} : ${exObj.email}`));
+
+            let deleBtn = document.createElement('input');
+            deleBtn.type = 'button';
+            deleBtn.value = "DELETE"
+
+            deleBtn.onclick = () => {
+                localStorage.removeItem(exObj.name);
+                parElem.removeChild(childElement);
+            }
+            
+
+            childElement.appendChild(deleBtn);
+            parElem.appendChild(childElement);
+
+            nameInput.value='';
+            emailInput.value='';
+            phoneNumber.value='';
+        }
+
+    </script>
+
+</head>
+<body>
+    <header id="main-header" class="bg bg-success text-white p-4">
+        <h1>Fill the details:</h1>
+    </header>
+    <form onSubmit="savingToLocalStorage(event)">
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <label for="fn"><b>Full Name:</b></label>
+                        <input type="text" id="fn" name="userName" class="form-control" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="ed"><b>Email Address:</b></label>
+                        <input type="email" id="ed" name="userID" class="form-control" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="pN"><b>Phone Number:</b></label>
+                        <input type="tel" id="pN" name="phoneNumber" class="form-control">
+                    </div>
+                    <br>
+                    <div>
+                        <button class="btn btn-danger form-control"><b>SUBMIT</b></button>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ul id="list-of-items"></ul>
+</body>
+</html>
